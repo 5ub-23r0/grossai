@@ -88,6 +88,20 @@ body{background:#080c14;color:#e0e6ed;font-family:'IBM Plex Sans','Segoe UI',sys
     </div>
   </div>
 
+  <!-- PROMPT -->
+  <div class="mb">
+    <div class="sl" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="togglePrompt()">
+      <span>Prompt / Anweisung</span><span id="promptToggle" style="font-size:14px;transition:transform .2s">+</span>
+    </div>
+    <div id="promptBox" style="display:none">
+      <textarea class="ta" id="promptText" rows="12" style="font-size:12px;line-height:1.6" oninput="savePrompt()"></textarea>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:6px">
+        <button class="btn-rs" onclick="resetPrompt()">Standard wiederherstellen</button>
+      </div>
+      <div class="hint">Wird lokal gespeichert. Bild 1 = Oberfläche, Bild 2 = Schnittfläche.</div>
+    </div>
+  </div>
+
   <!-- CONTEXT -->
   <div class="mb">
     <div class="sl">Zusatzinformationen (optional)</div>
@@ -121,7 +135,7 @@ Klinisch tastbar derb"></textarea>
 </div>
 
 <script>
-const PROMPT=`Du bist Pathologe an einem deutschen Institut. Bild 1 zeigt die Oberfläche eines Hautexzisats, Bild 2 die Schnittfläche. Erstelle eine makroskopische Beschreibung als einen zusammenhängenden Fließtext-Absatz auf Deutsch.
+const DEFAULT_PROMPT=`Du bist Pathologe an einem deutschen Institut. Bild 1 zeigt die Oberfläche eines Hautexzisats, Bild 2 die Schnittfläche. Erstelle eine makroskopische Beschreibung als einen zusammenhängenden Fließtext-Absatz auf Deutsch.
 
 Struktur in dieser Reihenfolge: Präparatform (spindelförmig/ovalär/rundlich/unregelmäßig), Markierung (fadenmarkiert/ohne), Gesamtmaße in cm, Läsionslokalisation (zentral/parazentral/exzentrisch/am Pol), Läsionsbegrenzung (scharf/unscharf/relativ scharf), Läsionsmorphologie (flach erhaben/kuppelförmig/papillomatös/nodulär/plan/ulzeriert/krustös/narbig), Läsionsfarbe, Läsionsmaße in mm, seitliche Sicherheitszone in mm, tiefer Resektionsrand in mm.
 
@@ -133,7 +147,17 @@ let img1=null,img2=null;
 
 const $=id=>document.getElementById(id);
 $("apiKey").value=localStorage.getItem("grossai_key")||"";
+$("promptText").value=localStorage.getItem("grossai_prompt")||DEFAULT_PROMPT;
 updateStatus();
+
+function getPrompt(){return $("promptText").value.trim()||DEFAULT_PROMPT}
+function savePrompt(){localStorage.setItem("grossai_prompt",$("promptText").value)}
+function resetPrompt(){$("promptText").value=DEFAULT_PROMPT;savePrompt()}
+function togglePrompt(){
+  const box=$("promptBox"),tog=$("promptToggle");
+  if(box.style.display==="none"){box.style.display="";tog.textContent="−"}
+  else{box.style.display="none";tog.textContent="+"}
+}
 
 function saveSetup(){
   localStorage.setItem("grossai_key",$("apiKey").value.trim());
@@ -215,7 +239,7 @@ async function generate(){
         messages:[{role:"user",content:[
           {type:"image",source:{type:"base64",media_type:img1.mt,data:img1.base64}},
           {type:"image",source:{type:"base64",media_type:img2.mt,data:img2.base64}},
-          {type:"text",text:PROMPT+extra}
+          {type:"text",text:getPrompt()+extra}
         ]}]
       })
     });
