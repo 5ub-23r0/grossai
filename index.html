@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GrossAI">
+<meta name="theme-color" content="#080c14">
+<title>GrossAI Haut</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#080c14;color:#e0e6ed;font-family:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased}
+.hdr{background:linear-gradient(180deg,#0c1220,#080c14);border-bottom:1px solid rgba(56,189,248,.1);padding:12px 20px;position:sticky;top:0;z-index:50}
+.hdr-in{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#0ea5e9,#6366f1);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}
+.logo-t{font-size:15px;font-weight:700;color:#f0f6fc}
+.logo-v{font-size:10px;color:#475569;margin-left:6px}
+.cnt{padding:14px 20px 40px;max-width:540px;margin:0 auto}
+.sl{font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.05)}
+.inp{width:100%;padding:10px 12px;border-radius:8px;background:#0d1525;border:1px solid rgba(255,255,255,.08);color:#e0e6ed;font-size:13px;font-family:inherit}
+.inp::placeholder{color:#334155}
+.hint{font-size:11px;color:#475569;margin-top:4px;line-height:1.4}
+.badge{display:inline-block;font-size:11px;margin-top:4px;padding:2px 8px;border-radius:4px}
+.badge-ok{background:rgba(34,197,94,.1);color:#22c55e}
+.badge-no{background:rgba(248,113,113,.1);color:#f87171}
+.photos{display:flex;gap:10px;margin-bottom:20px}
+.ps{flex:1;min-width:0}
+.ps input{display:none}
+.pl{display:flex;flex-direction:column;align-items:center;justify-content:center;height:110px;border:2px dashed rgba(56,189,248,.2);border-radius:12px;background:rgba(56,189,248,.02);cursor:pointer;overflow:hidden;transition:all .2s}
+.pl.ok{height:auto;border:2px solid rgba(34,197,94,.3);background:rgba(34,197,94,.04)}
+.pl .ic{font-size:22px;opacity:.5;margin-bottom:2px}
+.pl .lb{font-size:12px;font-weight:500;color:#38bdf8}
+.pl .sb{font-size:9px;color:#475569}
+.pp{position:relative;width:100%}
+.pp img{width:100%;max-height:130px;object-fit:cover;display:block}
+.po{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.7));padding:12px 8px 4px;text-align:center}
+.po span{font-size:10px;color:#22c55e;font-weight:600}
+.ctx-d{font-size:12px;color:#64748b;margin-bottom:8px;line-height:1.5}
+.ta{width:100%;padding:10px 12px;border-radius:8px;background:#0d1525;border:1px solid rgba(255,255,255,.08);color:#e0e6ed;font-size:13px;resize:vertical;font-family:inherit;line-height:1.5}
+.ta::placeholder{color:#334155}
+.btn{width:100%;padding:14px;border-radius:10px;border:none;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;cursor:pointer;font-family:inherit}
+.btn-go{background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;box-shadow:0 2px 16px rgba(14,165,233,.2)}
+.btn-off{background:rgba(255,255,255,.06);color:#64748b;border:1px solid rgba(255,255,255,.1);cursor:default;opacity:.7}
+.btn-ld{background:rgba(99,102,241,.25);color:#fff;cursor:default}
+.btn2{flex:1;padding:10px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#64748b}
+.btn2r{border-color:rgba(99,102,241,.15);background:rgba(99,102,241,.06);color:#818cf8}
+.btn-cp{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);color:#38bdf8;border-radius:6px;padding:5px 14px;font-size:12px;cursor:pointer;font-weight:500;min-width:80px;font-family:inherit}
+.btn-cp.ok{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.25);color:#22c55e}
+.btn-rs{background:0;border:1px solid rgba(255,255,255,.08);color:#64748b;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit}
+.res{padding:16px;border-radius:10px;background:#0b1121;border:1px solid rgba(99,102,241,.1);font-size:14px;line-height:1.8;color:#cbd5e1;white-space:pre-wrap;font-family:'IBM Plex Serif',Georgia,serif}
+.warn{margin-top:10px;padding:10px;border-radius:8px;background:rgba(234,179,8,.04);border:1px solid rgba(234,179,8,.1);font-size:10px;color:#a3842a;line-height:1.4}
+.err{margin-top:12px;padding:12px;border-radius:8px;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.15);color:#f87171;font-size:12px;word-break:break-word}
+.sp{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.fi{animation:fadeIn .3s ease}
+.mb{margin-bottom:20px}
+</style>
+</head>
+<body>
+
+<div class="hdr"><div class="hdr-in">
+  <div class="logo"><div class="logo-i">G</div><div><span class="logo-t">GrossAI</span><span class="logo-v">Haut v0.5</span></div></div>
+  <button class="btn-rs" id="rbtn" style="display:none" onclick="resetAll()">✕ Reset</button>
+</div></div>
+
+<div class="cnt">
+
+  <!-- SETUP -->
+  <div class="mb" id="setupBox">
+    <div class="sl">API-Schlüssel</div>
+    <div>
+      <input type="password" class="inp" id="apiKey" placeholder="sk-ant-..." oninput="saveSetup()">
+      <div class="hint">Wird nur lokal auf diesem Gerät gespeichert. Nie im Code. <span class="badge badge-no" id="connStatus">Kein Key</span></div>
+    </div>
+    <button style="margin-top:10px;padding:8px 14px;border-radius:8px;border:1px solid rgba(56,189,248,.2);background:rgba(56,189,248,.06);color:#38bdf8;font-size:12px;cursor:pointer;font-family:inherit" onclick="testConnection()">Verbindung testen</button>
+  </div>
+
+  <!-- PHOTOS -->
+  <div>
+    <div class="sl">Fotos (2 Pflichtaufnahmen)</div>
+    <div class="photos">
+      <div class="ps"><input type="file" accept="image/*" id="f1" onchange="handleFile(event,1)"><label for="f1" class="pl" id="l1"><div class="ic">📷</div><div class="lb">1 — Oberfläche</div><div class="sb">Gesamtpräparat</div></label></div>
+      <div class="ps"><input type="file" accept="image/*" id="f2" onchange="handleFile(event,2)"><label for="f2" class="pl" id="l2"><div class="ic">🔪</div><div class="lb">2 — Schnittfläche</div><div class="sb">Nach Lamellierung</div></label></div>
+    </div>
+  </div>
+
+  <!-- CONTEXT -->
+  <div class="mb">
+    <div class="sl">Zusatzinformationen (optional)</div>
+    <div class="ctx-d">Nur Angaben, die nicht aus den Fotos erkennbar sind.</div>
+    <textarea class="ta" id="freeText" rows="3" placeholder="z.B. Gewicht: 3,2g
+2x fadenmarkiert (12h + 3h)
+V.a. BZK
+Klinisch tastbar derb"></textarea>
+  </div>
+
+  <!-- GENERATE -->
+  <button class="btn btn-off" id="genBtn" onclick="generate()">Nicht bereit</button>
+  <div class="err" id="errBox" style="display:none"></div>
+
+  <!-- RESULT -->
+  <div id="resBox" style="display:none" class="fi">
+    <div style="margin-top:20px">
+      <div class="sl">Generierter Makrobefund</div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+        <button class="btn-cp" id="cpBtn" onclick="copyRes()">Kopieren</button>
+      </div>
+      <div class="res" id="resTxt"></div>
+      <div class="warn">⚠️ KI-Entwurf — Maße und Beschreibung vom Pathologen verifizieren. Platzhalter [X] ersetzen.</div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn2 btn2r" onclick="generate()">↻ Neu generieren</button>
+        <button class="btn2" onclick="resetAll()">+ Nächstes Präparat</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PROMPT=`Du bist Pathologe an einem deutschen Institut. Bild 1 zeigt die Oberfläche eines Hautexzisats, Bild 2 die Schnittfläche. Erstelle eine makroskopische Beschreibung als einen zusammenhängenden Fließtext-Absatz auf Deutsch.
+
+Struktur in dieser Reihenfolge: Präparatform (spindelförmig/ovalär/rundlich/unregelmäßig), Markierung (fadenmarkiert/ohne), Gesamtmaße in cm, Läsionslokalisation (zentral/parazentral/exzentrisch/am Pol), Läsionsbegrenzung (scharf/unscharf/relativ scharf), Läsionsmorphologie (flach erhaben/kuppelförmig/papillomatös/nodulär/plan/ulzeriert/krustös/narbig), Läsionsfarbe, Läsionsmaße in mm, seitliche Sicherheitszone in mm, tiefer Resektionsrand in mm.
+
+Schnittfläche nur beschreiben wenn auf Bild 2 eindeutig erkennbar. Schließe mit "[Aufarbeitung und Einbettung durch Pathologen zu ergänzen]".
+
+Verwende [X] als Platzhalter für unsichere Maße. Wenn Lineal im Bild: Maße ablesen. Keine Diagnose, keine Überschriften, nur Fließtext. Passivkonstruktionen bevorzugen.`;
+
+let img1=null,img2=null;
+
+const $=id=>document.getElementById(id);
+$("apiKey").value=localStorage.getItem("grossai_key")||"";
+updateStatus();
+
+function saveSetup(){
+  localStorage.setItem("grossai_key",$("apiKey").value.trim());
+  updateStatus();
+  updateBtn();
+}
+
+function updateStatus(){
+  const key=$("apiKey").value.trim();
+  const el=$("connStatus");
+  if(key.startsWith("sk-ant-")){el.textContent="Key gespeichert";el.className="badge badge-ok"}
+  else{el.textContent="Kein Key";el.className="badge badge-no"}
+}
+
+async function testConnection(){
+  const key=$("apiKey").value.trim();
+  const el=$("connStatus");
+  if(!key){el.textContent="Key fehlt";el.className="badge badge-no";return}
+  el.textContent="Teste...";el.className="badge badge-ok";
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:20,messages:[{role:"user",content:"Sage nur: OK"}]})});
+    const d=await r.json();
+    if(d.error){el.textContent="Fehler: "+d.error.message;el.className="badge badge-no"}
+    else{el.textContent="Verbunden!";el.className="badge badge-ok"}
+  }catch(e){el.textContent="Fehler: "+e.message;el.className="badge badge-no"}
+}
+
+function handleFile(e,n){
+  const f=e.target.files[0];if(!f)return;
+  const reader=new FileReader();
+  reader.onload=function(){
+    const b64=reader.result.split(",")[1];
+    const mt=f.type||"image/jpeg";
+    if(n===1){img1={base64:b64,mt};updateLabel(1,f)}
+    else{img2={base64:b64,mt};updateLabel(2,f)}
+    updateBtn();$("rbtn").style.display="";
+  };
+  reader.readAsDataURL(f);
+}
+
+function updateLabel(n,f){
+  const el=$("l"+n);const url=URL.createObjectURL(f);
+  const nm=n===1?"1 — Oberfläche":"2 — Schnittfläche";
+  el.className="pl ok";
+  el.innerHTML=`<div class="pp"><img src="${url}" alt="${nm}"><div class="po"><span>✓ ${nm}</span></div></div>`;
+}
+
+function updateBtn(){
+  const btn=$("genBtn");
+  const key=$("apiKey").value.trim();
+  const hasKey=key.startsWith("sk-ant-");
+  const hasBoth=img1&&img2;
+  const cnt=(img1?1:0)+(img2?1:0);
+  if(!hasKey){btn.className="btn btn-off";btn.textContent="API-Key fehlt"}
+  else if(!hasBoth){btn.className="btn btn-off";btn.textContent="Fotos fehlen ("+cnt+"/2)"}
+  else{btn.className="btn btn-go";btn.textContent="Makrobefund generieren"}
+}
+
+async function generate(){
+  const key=$("apiKey").value.trim();
+  if(!key.startsWith("sk-ant-")||!img1||!img2)return;
+
+  const btn=$("genBtn");const errBox=$("errBox");
+  btn.className="btn btn-ld";btn.innerHTML='<span class="sp"></span> Analysiere 2 Fotos...';
+  errBox.style.display="none";
+
+  const free=$("freeText").value.trim();
+  const extra=free?"\nZusatzinfo vom Pathologen: "+free:"";
+
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:1000,
+        messages:[{role:"user",content:[
+          {type:"image",source:{type:"base64",media_type:img1.mt,data:img1.base64}},
+          {type:"image",source:{type:"base64",media_type:img2.mt,data:img2.base64}},
+          {type:"text",text:PROMPT+extra}
+        ]}]
+      })
+    });
+    const d=await r.json();
+    if(d.error){showErr(d.error.message||"API-Fehler")}
+    else{
+      const txt=d.content.filter(c=>c.type==="text").map(c=>c.text).join("\n");
+      $("resTxt").textContent=txt||"Keine Antwort.";
+      $("resBox").style.display="";
+      $("resBox").scrollIntoView({behavior:"smooth",block:"start"});
+    }
+  }catch(e){showErr("Fehler: "+(e.message||String(e)))}
+  finally{updateBtn()}
+}
+
+function showErr(m){$("errBox").textContent=m;$("errBox").style.display=""}
+
+function copyRes(){
+  const btn=$("cpBtn");
+  navigator.clipboard.writeText($("resTxt").textContent).then(()=>{
+    btn.textContent="✓ Kopiert";btn.className="btn-cp ok";
+    setTimeout(()=>{btn.textContent="Kopieren";btn.className="btn-cp"},2000);
+  });
+}
+
+function resetAll(){
+  img1=null;img2=null;
+  $("f1").value="";$("f2").value="";$("freeText").value="";
+  $("errBox").style.display="none";$("resBox").style.display="none";$("rbtn").style.display="none";
+  [["l1","📷","1 — Oberfläche","Gesamtpräparat"],["l2","🔪","2 — Schnittfläche","Nach Lamellierung"]].forEach(([id,ic,lb,sb])=>{
+    const el=$(id);el.className="pl";
+    el.innerHTML=`<div class="ic">${ic}</div><div class="lb">${lb}</div><div class="sb">${sb}</div>`;
+  });
+  updateBtn();
+}
+
+updateBtn();
+</script>
+</body>
+</html>
