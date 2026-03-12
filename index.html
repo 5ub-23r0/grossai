@@ -236,10 +236,12 @@ async function generate(){
       body:JSON.stringify({
         model:"claude-sonnet-4-20250514",
         max_tokens:1000,
+        temperature:0,
+        system:getPrompt(),
         messages:[{role:"user",content:[
           {type:"image",source:{type:"base64",media_type:img1.mt,data:img1.base64}},
           {type:"image",source:{type:"base64",media_type:img2.mt,data:img2.base64}},
-          {type:"text",text:getPrompt()+extra}
+          {type:"text",text:"Erstelle den Makrobefund."+extra}
         ]}]
       })
     });
